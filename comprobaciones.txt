@@ -52,3 +52,10 @@ UNCONN 0      0              [::1]:53            [::]:*    users:(("named",pid=4
 UNCONN 0      0              [::1]:53            [::]:*    users:(("named",pid=401,fd=78))
 UNCONN 0      0              [::1]:53            [::]:*    users:(("named",pid=401,fd=77))
 named-checkconf: sin salida, configuración válida
+
+=== Comprobaciones LDAP ===
+898 slapd -d 0 -h ldap:///
+LISTEN 0      2048         0.0.0.0:389        0.0.0.0:*    users:(("slapd",pid=898,fd=6)) 
+LISTEN 0      2048            [::]:389           [::]:*    users:(("slapd",pid=898,fd=7)) 
+dn: dc=dpl,dc=local
+
