@@ -59,3 +59,64 @@ LISTEN 0      2048         0.0.0.0:389        0.0.0.0:*    users:(("slapd",pid=8
 LISTEN 0      2048            [::]:389           [::]:*    users:(("slapd",pid=898,fd=7)) 
 dn: dc=dpl,dc=local
 
+dn:uid=alumno,ou=usuarios,dc=dpl,dc=local
+ldap_bind: Invalid credentials (49)
+dn: uid=alumno,ou=usuarios,dc=dpl,dc=local
+cn: alumno
+mail: alumno@dpl.local
+
+dn: dc=dpl,dc=local
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+o: DPL
+dc: dpl
+structuralObjectClass: organization
+entryUUID: a50db918-761e-1041-8538-e9de5c54ceab
+creatorsName: cn=admin,dc=dpl,dc=local
+createTimestamp: 20261116153215Z
+entryCSN: 20261116153215.142862Z#000000#000#000000
+modifiersName: cn=admin,dc=dpl,dc=local
+modifyTimestamp: 20261116153215Z
+
+dn: ou=usuarios,dc=dpl,dc=local
+objectClass: organizationalUnit
+ou: usuarios
+structuralObjectClass: organizationalUnit
+entryUUID: 2efaffca-7622-1041-9bd1-790359e6917f
+creatorsName: cn=admin,dc=dpl,dc=local
+createTimestamp: 20261116155735Z
+entryCSN: 20261116155735.035945Z#000000#000#000000
+modifiersName: cn=admin,dc=dpl,dc=local
+modifyTimestamp: 20261116155735Z
+
+dn: uid=alumno,ou=usuarios,dc=dpl,dc=local
+objectClass: inetOrgPerson
+uid: alumno
+cn: alumno
+sn: Alumno DPL
+mail: alumno@dpl.local
+userPassword:: Q0FNQklBUl9FU1RP
+structuralObjectClass: inetOrgPerson
+entryUUID: 2efbd3fa-7622-1041-9bd2-790359e6917f
+creatorsName: cn=admin,dc=dpl,dc=local
+createTimestamp: 20261116155735Z
+entryCSN: 20261116155735.041398Z#000000#000#000000
+modifiersName: cn=admin,dc=dpl,dc=local
+modifyTimestamp: 20261116155735Z
+
+dn: uid=maria,ou=usuarios,dc=dpl,dc=local
+objectClass: inetOrgPerson
+uid: maria
+cn: maria
+sn: Maria DPL
+mail: maria@dpl.local
+userPassword:: Q0FNQklBUl9FU1RP
+structuralObjectClass: inetOrgPerson
+entryUUID: 2efc7f94-7622-1041-9bd3-790359e6917f
+creatorsName: cn=admin,dc=dpl,dc=local
+createTimestamp: 20261116155735Z
+entryCSN: 20261116155735.045791Z#000000#000#000000
+modifiersName: cn=admin,dc=dpl,dc=local
+modifyTimestamp: 20261116155735Z
+
