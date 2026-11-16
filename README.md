@@ -140,6 +140,14 @@ Con esto:
 - `www.dpl.local` apunta a nginx.
 - `app.dpl.local` apunta a la aplicación.
 
+Los registros que estoy usando son:
+
+- **SOA**: indica la información principal de la zona DNS, como el servidor principal y el número de serie de la zona.
+- **NS**: indica qué servidor DNS es el encargado de esa zona.
+- **A**: relaciona un nombre con una dirección IPv4.
+
+En este caso, `app.dpl.local` necesita su propio registro A porque tiene que apuntar directamente a la IP del contenedor de la aplicación, mientras que `www.dpl.local` apunta al contenedor nginx.
+
 También configuré `dns/named.conf.local`:
 
 ```text
@@ -495,8 +503,6 @@ He ido haciendo commits según he ido completando cada parte.
 
 ---
 
-# 17. Lo que tengo hecho
-
 Hasta ahora tengo funcionando:
 
 - DNS con BIND9.
@@ -517,10 +523,7 @@ Hasta ahora tengo funcionando:
 
 Todavía me falta:
 
-- Integrar la aplicación con LDAP.
-- Probar `/api/login`.
-- Crear `scripts/comprobar.sh`.
-- Hacer los cinco fallos de diagnóstico.
+- Completar los fallos de diagnóstico restantes.
 - Subir el proyecto al repositorio remoto.
 - Preparar el ZIP final con `.git`.
 
@@ -681,3 +684,70 @@ Resultado: todas las comprobaciones han pasado.
 ```
 
 La misma salida también está guardada en `comprobaciones.txt`.
+
+# 20. Informe de diagnóstico
+
+## Fallo 2: Puerto
+
+- **Síntoma observado:**  
+  El contenedor `ae4-nginx-1` no podía arrancar y quedaba en estado `exited`. Al revisar la configuración vi que nginx intentaba publicar el puerto `8000` del anfitrión.
+
+- **Causa:**  
+  El puerto `8000` ya estaba siendo utilizado por `dpl-lab`, por lo que los dos contenedores no podían publicar el mismo puerto del anfitrión.
+
+- **Comprobación:**  
+
+```bash
+sudo docker inspect ae4-nginx-1 \
+--format 'ae4-nginx-1 quiere publicar: {{json .HostConfig.PortBindings}}'
+```
+
+Resultado:
+
+```text
+ae4-nginx-1 quiere publicar: {"80/tcp":[{"HostIp":"","HostPort":"8000"}]}
+```
+
+Después comprobé quién estaba usando ese puerto:
+
+```bash
+sudo docker ps --format 'table {{.Names}}\t{{.Ports}}' | \
+grep -E 'NAMES|dpl-lab|ae4-nginx'
+```
+
+Resultado:
+
+```text
+NAMES           PORTS
+dpl-lab         0.0.0.0:80->80/tcp, [::]:80->80/tcp, 0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp, 0.0.0.0:8080->8080/tcp, [::]:8080->8080/tcp
+```
+
+Por tanto, `ae4-nginx-1` quería usar el puerto `8000`, pero `dpl-lab` ya lo tenía ocupado.
+
+- **Corrección aplicada:**  
+  Como no quería modificar la configuración de la AE4, levanté otro contenedor nginx para la AE6 sin publicar ningún puerto del anfitrión:
+
+```bash
+cd ~/dpl/ae4
+
+sudo docker compose run -d --no-deps \
+--name ae6-nginx nginx
+```
+
+El nuevo nginx quedó conectado a `ae4_default` y accesible directamente desde `dpl-cliente` mediante la red Docker.
+
+- **Verificación final:**  
+
+```bash
+curl -I http://www.dpl.local
+```
+
+Resultado:
+
+```text
+HTTP/1.1 200 OK
+Server: nginx/1.27.5
+Content-Type: text/html; charset=utf-8
+```
+
+Con esto comprobé que el servidor Web volvía a estar accesible por nombre sin tener que utilizar el puerto `8000` del anfitrión.
