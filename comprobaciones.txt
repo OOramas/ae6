@@ -1,0 +1,54 @@
+=== Comprobaciones DNS ===
+Server:		172.18.0.2
+Address:	172.18.0.2#53
+
+Name:	www.dpl.local
+Address: 172.22.0.7
+
+app.dpl.local.		3600	IN	A	172.22.0.4
+www.dpl.local has address 172.22.0.7
+dpl.local name server ns1.dpl.local.
+PING www.dpl.local (172.22.0.7) 56(84) bytes of data.
+64 bytes from 172.22.0.7: icmp_seq=1 ttl=64 time=0.022 ms
+64 bytes from 172.22.0.7: icmp_seq=2 ttl=64 time=0.075 ms
+64 bytes from 172.22.0.7: icmp_seq=3 ttl=64 time=0.050 ms
+
+--- www.dpl.local ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2012ms
+rtt min/avg/max/mdev = 0.022/0.049/0.075/0.021 ms
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+HTTP/1.1 200 OK
+Server: nginx/1.27.5
+Date: Mon, 16 Nov 2026 13:35:47 GMT
+Content-Type: text/html; charset=utf-8
+Connection: keep-alive
+
+{"mensaje": "Hola desde el servidor de aplicaciones DPL (UT4)", "hostname": "390f795a2e11", "fecha": "2026-11-16T14:35:50"}sin entradas locales (correcto)
+
+=== Validación de BIND9 ===
+zone dpl.local/IN: loaded serial 2026111601
+OK
+401 named -g
+UNCONN 0      0         172.22.0.6:53         0.0.0.0:*    users:(("named",pid=401,fd=70))
+UNCONN 0      0         172.22.0.6:53         0.0.0.0:*    users:(("named",pid=401,fd=69))
+UNCONN 0      0         172.22.0.6:53         0.0.0.0:*    users:(("named",pid=401,fd=68))
+UNCONN 0      0         172.22.0.6:53         0.0.0.0:*    users:(("named",pid=401,fd=67))
+UNCONN 0      0         172.17.0.2:53         0.0.0.0:*    users:(("named",pid=401,fd=60))
+UNCONN 0      0         172.17.0.2:53         0.0.0.0:*    users:(("named",pid=401,fd=61))
+UNCONN 0      0         172.17.0.2:53         0.0.0.0:*    users:(("named",pid=401,fd=62))
+UNCONN 0      0         172.17.0.2:53         0.0.0.0:*    users:(("named",pid=401,fd=59))
+UNCONN 0      0         172.18.0.2:53         0.0.0.0:*    users:(("named",pid=401,fd=51))
+UNCONN 0      0         172.18.0.2:53         0.0.0.0:*    users:(("named",pid=401,fd=53))
+UNCONN 0      0         172.18.0.2:53         0.0.0.0:*    users:(("named",pid=401,fd=54))
+UNCONN 0      0         172.18.0.2:53         0.0.0.0:*    users:(("named",pid=401,fd=52))
+UNCONN 0      0          127.0.0.1:53         0.0.0.0:*    users:(("named",pid=401,fd=39))
+UNCONN 0      0          127.0.0.1:53         0.0.0.0:*    users:(("named",pid=401,fd=40))
+UNCONN 0      0          127.0.0.1:53         0.0.0.0:*    users:(("named",pid=401,fd=42))
+UNCONN 0      0          127.0.0.1:53         0.0.0.0:*    users:(("named",pid=401,fd=41))
+UNCONN 0      0              [::1]:53            [::]:*    users:(("named",pid=401,fd=76))
+UNCONN 0      0              [::1]:53            [::]:*    users:(("named",pid=401,fd=75))
+UNCONN 0      0              [::1]:53            [::]:*    users:(("named",pid=401,fd=78))
+UNCONN 0      0              [::1]:53            [::]:*    users:(("named",pid=401,fd=77))
+named-checkconf: sin salida, configuración válida
