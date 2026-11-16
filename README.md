@@ -751,3 +751,9 @@ Content-Type: text/html; charset=utf-8
 ```
 
 Con esto comprobé que el servidor Web volvía a estar accesible por nombre sin tener que utilizar el puerto `8000` del anfitrión.
+
+# Repositorio
+
+Repositorio de la actividad:
+
+https://github.com/OOramas/ae6
