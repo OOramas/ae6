@@ -623,3 +623,61 @@ La cadena completa que está funcionando ahora mismo es:
 ```text
 dpl-cliente -> DNS -> nginx -> aplicación -> LDAP
 ```
+
+# 19. Script de comprobación
+
+Creé el script:
+
+```text
+scripts/comprobar.sh
+```
+
+para comprobar automáticamente que siguen funcionando las partes principales de la actividad.
+
+El script comprueba:
+
+- Que la configuración de BIND9 es válida.
+- Que `named` está activo.
+- Que `www.dpl.local` y `app.dpl.local` resuelven correctamente.
+- Que no estoy usando `/etc/hosts` para resolver esos nombres.
+- Que `slapd` está activo.
+- Que el usuario `alumno` existe en LDAP.
+- Que LDAP acepta la contraseña correcta y rechaza una incorrecta.
+- Que la Web responde por nombre.
+- Que la aplicación responde por nombre.
+- Que `/api/login` devuelve `200` con las credenciales correctas.
+- Que `/api/login` devuelve `401` con una contraseña incorrecta.
+
+Como el proyecto está guardado dentro de `dpl-lab` pero Docker se controla desde el anfitrión, ejecuté el script desde el anfitrión de esta forma:
+
+```bash
+sudo docker exec dpl-lab cat /home/alumno/dpl/ae6/scripts/comprobar.sh | sudo bash
+```
+
+El resultado final fue:
+
+```text
+== DNS ==
+[OK]   named-checkconf
+[OK]   zona dpl.local válida
+[OK]   named activo
+[OK]   www.dpl.local -> 172.22.0.7
+[OK]   app.dpl.local -> 172.22.0.4
+[OK]   sin entradas dpl.local en /etc/hosts
+
+== Directorio LDAP ==
+[OK]   slapd activo
+[OK]   usuario alumno encontrado
+[OK]   autenticación LDAP correcta
+[OK]   LDAP rechaza la contraseña incorrecta
+
+== Integración ==
+[OK]   Web por nombre (200)
+[OK]   aplicación por nombre
+[OK]   login LDAP correcto (200)
+[OK]   login LDAP incorrecto rechazado (401)
+
+Resultado: todas las comprobaciones han pasado.
+```
+
+La misma salida también está guardada en `comprobaciones.txt`.

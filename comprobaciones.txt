@@ -123,3 +123,24 @@ modifyTimestamp: 20261116155735Z
 {"autenticado": true, "usuario": "alumno", "perfil": {"cn": "alumno", "mail": "alumno@dpl.local"}}
 HTTP 200
 HTTP 401
+== DNS ==
+[OK]   named-checkconf
+[OK]   zona dpl.local válida
+[OK]   named activo
+[OK]   www.dpl.local -> 172.22.0.7
+[OK]   app.dpl.local -> 172.22.0.4
+[OK]   sin entradas dpl.local en /etc/hosts
+
+== Directorio LDAP ==
+[OK]   slapd activo
+[OK]   usuario alumno encontrado
+[OK]   autenticación LDAP correcta
+[OK]   LDAP rechaza la contraseña incorrecta
+
+== Integración ==
+[OK]   Web por nombre (200)
+[OK]   aplicación por nombre
+[OK]   login LDAP correcto (200)
+[OK]   login LDAP incorrecto rechazado (401)
+
+Resultado: todas las comprobaciones han pasado.
