@@ -120,3 +120,6 @@ entryCSN: 20261116155735.045791Z#000000#000#000000
 modifiersName: cn=admin,dc=dpl,dc=local
 modifyTimestamp: 20261116155735Z
 
+{"autenticado": true, "usuario": "alumno", "perfil": {"cn": "alumno", "mail": "alumno@dpl.local"}}
+HTTP 200
+HTTP 401
